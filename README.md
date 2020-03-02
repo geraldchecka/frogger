@@ -1,2 +1,2 @@
-# frogger
-Classic arcade game Frogger in JavaScript
+# Frogger
+Frogger: A popular 80's arcade game in JavaScript
