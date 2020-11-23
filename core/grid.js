@@ -6,7 +6,6 @@ import Resources from './resources.js';
     // variables - grid operation related configuration
 
 // Future
-// scale proportionally to canvas size
 // Portrait & landscape
 
 function drawGrid(images, { context, canvas }, config) {
