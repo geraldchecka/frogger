@@ -22,27 +22,58 @@ function drawGrid(images, { context, canvas }, config) {
       drawGrass(context, images, config, index);
     }
   })
-  // ctx.drawImage(images.enemy, 100, 0, 50, 50);
-  // ctx.drawImage(images.stone, 300, 204);
-  // ctx.drawImage(images.character, 0, 450);
+  // context.drawImage(images.enemy, 100, 0, 50, 50);
+  // context.drawImage(images.stone, 300, 204);
+  drawCharacter(context, images, config);
 }
 
 function drawGrass(context, images, config, row) {
   for (let c = 0; c < config.cols; c++) {
-    context.drawImage(images.grass, config.colWidth * c, row * config.imageHeight - config.vTransp, config.colWidth, config.colHeight);
+    context.drawImage(
+      images.grass,
+      config.colWidth * c,
+      row * config.imageHeight - config.vTransp,
+      config.colWidth,
+      config.colHeight
+    );
   }
 }
+
 function drawStone(context, images, config, row) {
   for (let c = 0; c < config.cols; c++) {
-    context.drawImage(images.stone, config.colWidth * c, row * config.imageHeight - config.vTransp, config.colWidth, config.colHeight);
+    context.drawImage(
+      images.stone,
+      config.colWidth * c,
+      row * config.imageHeight - config.vTransp,
+      config.colWidth,
+      config.colHeight
+    );
   }
 }
+
 function drawWater(context, images, config, row) {
   for (let c = 0; c < config.cols; c++) {
-    context.drawImage(images.water, config.colWidth * c, row * config.imageHeight - config.vTransp, config.colWidth, config.colHeight);
+    context.drawImage(
+      images.water,
+      config.colWidth * c,
+      row * config.imageHeight - config.vTransp,
+      config.colWidth,
+      config.colHeight
+    );
   }
 }
+
 function drawEnemy(context) {}
+
+function drawCharacter(context, images, config) {
+  context.drawImage(
+    images.character,
+    8 * config.colWidth + 5,
+    7 * config.imageHeight - 26, // - config.vTransp,
+    config.colWidth - 10,
+    config.colHeight - 10
+  );
+}
 
 function createCanvas(config, canvasID = "frogger-canvas") {
   const canvas = document.createElement('canvas');
@@ -81,7 +112,7 @@ export default function Grid(canvasID, /* Frogger v2.0 orientation feature */) {
           "grass"
         ];
       },
-      rows: 7,
+      rows: 8,
       cols: 9,
       colWidth: 60,
       colHeight: 90,
