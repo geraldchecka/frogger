@@ -20,16 +20,20 @@ const imagePromises = Assets.reduce(function (acc, asset) {
   return acc;
 }, []);
 
-export default Promise.allSettled(imagePromises)
-  .then(function ([stone, water, grass, enemy, character]) {
-    Assets[stone.value.key] = stone.value.img;
-    Assets[water.value.key] = water.value.img;
-    Assets[grass.value.key] = grass.value.img;
-    Assets[enemy.value.key] = enemy.value.img;
-    Assets[character.value.key] = character.value.img;
-    return Assets;
-  })
-  .catch((err) => {
-    console.error(err);
-    return err;
-  });
+export default {
+  initiate: function initiate() {
+    return Promise.allSettled(imagePromises)
+      .then(function ([stone, water, grass, enemy, character]) {
+        Assets[stone.value.key] = stone.value.img;
+        Assets[water.value.key] = water.value.img;
+        Assets[grass.value.key] = grass.value.img;
+        Assets[enemy.value.key] = enemy.value.img;
+        Assets[character.value.key] = character.value.img;
+        return Assets;
+      })
+      .catch((err) => {
+        console.error(err);
+        return err;
+      });
+  }
+}

@@ -1,3 +1,1 @@
-import Grid from './core/grid.js';
-
-function Frogger() {}
+import Game from './core/game.js';

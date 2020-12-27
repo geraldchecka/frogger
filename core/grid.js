@@ -11,20 +11,14 @@ import Resources from './resources.js';
 function drawGrid(images, { context, canvas }, config) {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  config.getGameBoard.map((row, index) => {
-    if (row === "water") {
-      drawWater(context, images, config, index);
-    }
-    else if (row === "stone") {
-      drawStone(context, images, config, index);
-    }
-    else {
-      drawGrass(context, images, config, index);
-    }
-  })
+  config.gameBoard.map((row, index) => {
+    row === "water" && drawWater(context, images, config, index);
+    row === "stone" && drawStone(context, images, config, index);
+    row === "grass" && drawGrass(context, images, config, index);
+  });
   // context.drawImage(images.enemy, 100, 0, 50, 50);
   // context.drawImage(images.stone, 300, 204);
-  drawCharacter(context, images, config);
+  // drawCharacter(context, images, config);
 }
 
 function drawGrass(context, images, config, row) {
@@ -68,14 +62,14 @@ function drawEnemy(context) {}
 function drawCharacter(context, images, config) {
   context.drawImage(
     images.character,
-    8 * config.colWidth + 5,
-    7 * config.imageHeight - 26, // - config.vTransp,
-    config.colWidth - 10,
-    config.colHeight - 10
+    config.characterInitialise.col * config.colWidth,
+    config.characterInitialise.row * config.imageHeight - config.vTransp - 5,
+    config.colWidth,
+    config.colHeight
   );
 }
 
-function createCanvas(config, canvasID = "frogger-canvas") {
+function createCanvas(canvasID = "frogger-canvas", config) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   canvas.setAttribute("id", canvasID);
@@ -91,32 +85,37 @@ function createCanvas(config, canvasID = "frogger-canvas") {
   };
 }
 
+function init(getImages) {
+  // Make API call from here instead of Resources
+  drawGrid(getImages(), this.grid, this.config);
+}
+
 // Grid class initialises the grid and makes available necessary methods and properties
-export default function Grid(canvasID, /* Frogger v2.0 orientation feature */) {
+export default function Grid(id, data) {
+  debugger;
+  let {
+    rows,
+    cols,
+    colHeight,
+    colWidth,
+    vTransp,
+    gameBoard,
+  } = data.getGridInfo();
+
   Object.defineProperty(this, 'config', {
     value: Object.freeze({
-      // board: {
-      //   water: 1,
-      //   stone: 4,
-      //   grass: 2
-      // },
-      get getGameBoard() {
-        return [
-          "water",
-          "water",
-          "stone",
-          "stone",
-          "stone",
-          "stone",
-          "grass",
-          "grass"
-        ];
+      get gameBoard() {
+        return gameBoard;
       },
-      rows: 8,
-      cols: 9,
-      colWidth: 60,
-      colHeight: 90,
-      vTransp: 26,
+      rows,
+      cols,
+      colWidth,
+      colHeight,
+      vTransp,
+      // characterInitialise: {
+      //   col: 4,
+      //   row: 7
+      // },
       get gridWidth() {
         return this.cols * this.colWidth;
       },
@@ -134,7 +133,7 @@ export default function Grid(canvasID, /* Frogger v2.0 orientation feature */) {
 
   Object.defineProperty(this, 'grid', {
     value: {
-      ...createCanvas(this.config, canvasID)
+      ...createCanvas(id, this.config)
     },
     configurable: false,
     writable: true,
@@ -142,18 +141,4 @@ export default function Grid(canvasID, /* Frogger v2.0 orientation feature */) {
   });
 }
 
-Grid.prototype.init = function(images) {
-  // Make API call from here instead of Resources
-  drawGrid(images, this.grid, this.config);
-}
-
-Resources.then((res) => {
-  // debugger;
-  // draw grid
-  console.log("loaded assets")
-  const frogger = new Grid();
-  frogger.init(res);
-})
-.catch(err => {
-  console.log(err);
-})
+Grid.prototype.init = init;
