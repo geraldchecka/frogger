@@ -8,19 +8,6 @@ import Resources from './resources.js';
 // Future
 // Portrait & landscape
 
-function drawGrid(images, { context, canvas }, config) {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  config.gameBoard.map((row, index) => {
-    row === "water" && drawWater(context, images, config, index);
-    row === "stone" && drawStone(context, images, config, index);
-    row === "grass" && drawGrass(context, images, config, index);
-  });
-  // context.drawImage(images.enemy, 100, 0, 50, 50);
-  // context.drawImage(images.stone, 300, 204);
-  // drawCharacter(context, images, config);
-}
-
 function drawGrass(context, images, config, row) {
   for (let c = 0; c < config.cols; c++) {
     context.drawImage(
@@ -59,11 +46,11 @@ function drawWater(context, images, config, row) {
 
 function drawEnemy(context) {}
 
-function drawCharacter(context, images, config) {
+function drawCharacter(context, images, config, getPlayerPosition) {
   context.drawImage(
     images.character,
-    config.characterInitialise.col * config.colWidth,
-    config.characterInitialise.row * config.imageHeight - config.vTransp - 5,
+    getPlayerPosition().col * config.colWidth,
+    getPlayerPosition().row * config.imageHeight - config.vTransp - 5,
     config.colWidth,
     config.colHeight
   );
@@ -85,14 +72,32 @@ function createCanvas(canvasID = "frogger-canvas", config) {
   };
 }
 
-function init(getImages) {
-  // Make API call from here instead of Resources
-  drawGrid(getImages(), this.grid, this.config);
+function draw(grid, player, enemies) {
+  var closure = this;
+
+  function animate() {
+    const images = grid.getImages();
+    const { context, canvas } = closure.grid;
+    
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    closure.config.gameBoard.map((row, index) => {
+      row === "water" && drawWater(context, images, closure.config, index);
+      row === "stone" && drawStone(context, images, closure.config, index);
+      row === "grass" && drawGrass(context, images, closure.config, index);
+    });
+    // context.drawImage(images.enemy, 100, 0, 50, 50);
+    // context.drawImage(images.stone, 300, 204);
+    drawCharacter(context, images, closure.config, player.getPlayerPosition);
+    // console.log("i got called", player.getPlayerPosition());
+    requestAnimationFrame(animate);
+  }
+  animate();
 }
 
 // Grid class initialises the grid and makes available necessary methods and properties
-export default function Grid(id, data) {
-  debugger;
+export default function Grid(id, getGridInfo) {
+
   let {
     rows,
     cols,
@@ -100,7 +105,7 @@ export default function Grid(id, data) {
     colWidth,
     vTransp,
     gameBoard,
-  } = data.getGridInfo();
+  } = getGridInfo();
 
   Object.defineProperty(this, 'config', {
     value: Object.freeze({
@@ -141,4 +146,4 @@ export default function Grid(id, data) {
   });
 }
 
-Grid.prototype.init = init;
+Grid.prototype.draw = draw;

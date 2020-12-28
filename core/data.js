@@ -3,8 +3,6 @@ function Data(assets) {
   // Images from remote assets
   const images = assets;
   
-  debugger;
-  // Game entities
   const enemies = {};
 
   const player = {
@@ -30,22 +28,27 @@ function Data(assets) {
     ],
   };
 
-  this.getGridInfo = function() {
-    return gridConstants;
+  this.api = {
+    player: {
+      getPlayerPosition: function() {
+        return player;
+      },
+      setPlayerPosition: function(row, col) {
+        player.row = row;
+        player.col = col;
+      },
+    },
+    enemies: {},
+    grid: {
+      getGridInfo: function() {
+        return gridConstants;
+      },
+      getImages: function() {
+        return images;
+      },
+    }
   };
 
-  this.getImages = function() {
-    return images;
-  };
-
-  this.getPlayerPosition = function() {
-    return player;
-  };
-
-  this.setPlayerPosition = function(row, col) {
-    player.row = row;
-    player.col = col;
-  };
   // moveEnemies = function() {};
 }
 

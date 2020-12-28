@@ -6,23 +6,36 @@ import Resources from './resources.js';
 
 
 function Game(assets) {
-  debugger;
-  // call the data class and fetch data objects
   this.data = new Data(assets);
-  this.grid = new Grid('frogger-gameboard', this.data);
+  this.grid = new Grid('frogger-gameboard', this.data.api.grid.getGridInfo);
   // this.player = new Player();
   // this.enemies = [new Enemy()]; // Fix later
-  this.grid.init(this.data.getImages, this.data.getPlayerPosition);
-  // Player, Enemery and Prize have their own drawing logic. So pass canvas 'context' around.
-    // Expose public methods accordingly
+  this.grid.draw(
+    this.data.api.grid,
+    this.data.api.player,
+    this.data.api.enemies,
+  );
 
+  // To remote later
+  // function randomiseRange(min, max) {
+  //   return Math.floor(Math.random() * (max - min + 1) + min);
+  // }
+
+  // setInterval(() => {
+  //   this.data.api.player.setPlayerPosition(
+  //     randomiseRange(0, 7),
+  //     randomiseRange(0, 8)
+  //   );
+  // }, 3000)
+
+  // Player, Enemy and Prize have their own drawing logic. So pass canvas 'context' around.
+    // Expose public methods accordingly
   // 
 }
 
 Resources
   .initiate()
   .then(res => {
-    debugger;
     window.frogger = new Game(res);
   })
   .catch(err => {
