@@ -88,7 +88,7 @@ function draw(grid, player, enemies) {
     });
     // context.drawImage(images.enemy, 100, 0, 50, 50);
     // context.drawImage(images.stone, 300, 204);
-    drawCharacter(context, images, closure.config, player.getPlayerPosition);
+    drawCharacter(context, images, closure.config, player.getPosition);
     // console.log("i got called", player.getPlayerPosition());
     requestAnimationFrame(animate);
   }
