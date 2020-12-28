@@ -6,14 +6,15 @@ import Resources from './resources.js';
 
 
 function Game(assets) {
+  // rename data to model
   this.data = new Data(assets);
-  this.grid = new Grid('frogger-gameboard', this.data.api.grid.getGridInfo);
-  // this.player = new Player();
+  this.grid = new Grid('frogger-gameboard', this.data.model.grid.getGridInfo);
+  this.player = new Player(this.data.model.player);
   // this.enemies = [new Enemy()]; // Fix later
   this.grid.draw(
-    this.data.api.grid,
-    this.data.api.player,
-    this.data.api.enemies,
+    this.data.model.grid,
+    this.data.model.player,
+    this.data.model.enemies,
   );
 
   // To remote later
@@ -22,7 +23,7 @@ function Game(assets) {
   // }
 
   // setInterval(() => {
-  //   this.data.api.player.setPlayerPosition(
+  //   this.data.model.player.setPlayerPosition(
   //     randomiseRange(0, 7),
   //     randomiseRange(0, 8)
   //   );
@@ -53,3 +54,4 @@ export default Game;
   // separation of concern
   // encapsulation (game)
   // facade patterns ?(Game.js as it acts like controller and god like class)
+  // MVC pattern
