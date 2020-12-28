@@ -1,4 +1,7 @@
 // All game related data is maintained here
+// Change Data to 'Model' concept
+// Player model, Enemies model/collection, grid model etc...
+
 function Data(assets) {
   // Images from remote assets
   const images = assets;
@@ -28,12 +31,12 @@ function Data(assets) {
     ],
   };
 
-  this.api = {
+  this.model = {
     player: {
-      getPlayerPosition: function() {
+      getPosition: function() {
         return player;
       },
-      setPlayerPosition: function(row, col) {
+      setPosition: function(row, col) {
         player.row = row;
         player.col = col;
       },
