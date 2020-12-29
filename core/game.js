@@ -1,6 +1,6 @@
 import Grid from './grid.js';
 import Player from './player.js';
-// import Enemy from './enemy.js';
+import Enemy from './enemy.js';
 import Data from './data.js';
 import Resources from './resources.js';
 
@@ -16,7 +16,10 @@ function Game(assets) {
     this.data.model.grid,
     this.data.model.player,
   );
-  // this.enemies = [new Enemy()]; // Fix later
+  this.enemies = new Enemy(
+    this.data.model.grid,
+    this.data.model.enemies,
+  );
   this.grid.draw(
     this.data.model.grid,
     this.data.model.player,

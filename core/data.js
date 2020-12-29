@@ -3,16 +3,41 @@
 // Player model, Enemies model/collection, grid model etc...
 
 function Data(assets) {
-  // Images from remote assets
   const images = assets;
-  
-  const enemies = {};
-
+  const enemies = [
+    {
+      row: 2,
+      col: 0,
+      xDelta: -60,
+      yDelta: -3,
+      speed: 0,
+    },
+    {
+      row: 3,
+      col: 0,
+      xDelta: -60,
+      yDelta: -3,
+      speed: 0,
+    },
+    {
+      row: 4,
+      col: 0,
+      xDelta: -60,
+      yDelta: -3,
+      speed: 0,
+    },
+    {
+      row: 5,
+      col: 0,
+      xDelta: -60,
+      yDelta: -3,
+      speed: 0,
+    }
+  ];
   const player = {
     col: 4,
     row: 7,
   };
-
   const gridConstants = Object.freeze({
     rows: 8,
     cols: 9,
@@ -41,7 +66,19 @@ function Data(assets) {
         player.col = col;
       },
     },
-    enemies: {},
+    enemies: {
+      getEnemies: function() {
+        return enemies;
+      },
+      setEnemies: function(cb) {
+        enemies.map(enemy => {
+          if (cb) {
+            cb(enemy);
+          }
+          return enemy;
+        });
+      }
+    },
     grid: {
       getGridInfo: function() {
         return gridConstants;

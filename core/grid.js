@@ -1,13 +1,5 @@
 import Resources from './resources.js';
 
-// classes - OOD
-  // Grid
-    // method - grid operation related
-    // variables - grid operation related configuration
-
-// Future
-// Portrait & landscape
-
 function drawGrass(context, images, config, row) {
   for (let c = 0; c < config.cols; c++) {
     context.drawImage(
@@ -44,7 +36,17 @@ function drawWater(context, images, config, row) {
   }
 }
 
-function drawEnemy(context) {}
+function drawEnemies(context, images, config, getEnemies) {
+  getEnemies().map(function(position) {
+    context.drawImage(
+      images.enemy,
+      position.col * config.colWidth + position.xDelta,
+      (position.row * config.imageHeight + position.yDelta)- config.vTransp - 5,
+      config.colWidth,
+      config.colHeight
+    );
+  })
+}
 
 function drawCharacter(context, images, config, getPlayerPosition) {
   context.drawImage(
@@ -74,22 +76,21 @@ function createCanvas(canvasID = "frogger-canvas", config) {
 
 function draw(grid, player, enemies) {
   var closure = this;
+  // 1. cache all values here to avoid re-calculating in animation frame
+  // 2. Avoid expensive calculations here
 
   function animate() {
     const images = grid.getImages();
     const { context, canvas } = closure.grid;
-    
+
     context.clearRect(0, 0, canvas.width, canvas.height);
-    
     closure.config.gameBoard.map((row, index) => {
       row === "water" && drawWater(context, images, closure.config, index);
       row === "stone" && drawStone(context, images, closure.config, index);
       row === "grass" && drawGrass(context, images, closure.config, index);
     });
-    // context.drawImage(images.enemy, 100, 0, 50, 50);
-    // context.drawImage(images.stone, 300, 204);
     drawCharacter(context, images, closure.config, player.getPosition);
-
+    drawEnemies(context, images, closure.config, enemies.getEnemies);
     requestAnimationFrame(animate);
   }
   animate();

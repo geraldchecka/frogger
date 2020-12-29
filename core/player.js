@@ -77,3 +77,7 @@ export default function Player(gridModel, playerModel) {
     true          // Because we'd want to capture it ASAP
   );
 };
+
+Player.prototype.freezePlayer = function() {
+  document.removeEventListener("keyup");
+};
