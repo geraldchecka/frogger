@@ -13,7 +13,7 @@ function Data(assets) {
     row: 7,
   };
 
-  const gridConstants = {
+  const gridConstants = Object.freeze({
     rows: 8,
     cols: 9,
     colWidth: 60,
@@ -29,7 +29,7 @@ function Data(assets) {
       "grass",
       "grass"
     ],
-  };
+  });
 
   this.model = {
     player: {
