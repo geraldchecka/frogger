@@ -9,7 +9,10 @@ function Game(assets) {
   // rename data to model
   this.data = new Data(assets);
   this.grid = new Grid('frogger-gameboard', this.data.model.grid.getGridInfo);
-  this.player = new Player(this.data.model.player);
+  this.player = new Player(
+    this.data.model.grid,
+    this.data.model.player,
+  );
   // this.enemies = [new Enemy()]; // Fix later
   this.grid.draw(
     this.data.model.grid,
