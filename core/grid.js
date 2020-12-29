@@ -89,14 +89,14 @@ function draw(grid, player, enemies) {
     // context.drawImage(images.enemy, 100, 0, 50, 50);
     // context.drawImage(images.stone, 300, 204);
     drawCharacter(context, images, closure.config, player.getPosition);
-    // console.log("i got called", player.getPlayerPosition());
+
     requestAnimationFrame(animate);
   }
   animate();
 }
 
 // Grid class initialises the grid and makes available necessary methods and properties
-export default function Grid(id, getGridInfo) {
+export default function Grid(id, gridModel) {
 
   let {
     rows,
@@ -105,7 +105,7 @@ export default function Grid(id, getGridInfo) {
     colWidth,
     vTransp,
     gameBoard,
-  } = getGridInfo();
+  } = gridModel.getGridInfo();
 
   Object.defineProperty(this, 'config', {
     value: Object.freeze({
@@ -117,10 +117,6 @@ export default function Grid(id, getGridInfo) {
       colWidth,
       colHeight,
       vTransp,
-      // characterInitialise: {
-      //   col: 4,
-      //   row: 7
-      // },
       get gridWidth() {
         return this.cols * this.colWidth;
       },

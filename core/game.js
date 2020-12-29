@@ -8,7 +8,10 @@ import Resources from './resources.js';
 function Game(assets) {
   // rename data to model
   this.data = new Data(assets);
-  this.grid = new Grid('frogger-gameboard', this.data.model.grid.getGridInfo);
+  this.grid = new Grid(
+    'frogger-gameboard',
+    this.data.model.grid
+  );
   this.player = new Player(
     this.data.model.grid,
     this.data.model.player,
@@ -20,11 +23,10 @@ function Game(assets) {
     this.data.model.enemies,
   );
 
-  // To remote later
+  // DELETE:
   // function randomiseRange(min, max) {
   //   return Math.floor(Math.random() * (max - min + 1) + min);
   // }
-
   // setInterval(() => {
   //   this.data.model.player.setPlayerPosition(
   //     randomiseRange(0, 7),
