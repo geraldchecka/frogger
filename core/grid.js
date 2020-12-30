@@ -1,4 +1,5 @@
 import Resources from './resources.js';
+import { randomiseRange } from "../libs/utilities.js";
 
 function drawGrass(context, images, config, row) {
   for (let c = 0; c < config.cols; c++) {
@@ -36,23 +37,27 @@ function drawWater(context, images, config, row) {
   }
 }
 
-function drawEnemies(context, images, config, getEnemies) {
-  getEnemies().map(function(position) {
+function drawEnemies(context, images, config, enemies, deltaTime) {
+  enemies.map(function(position) {
+    if (position.xDelta >= 560) {
+      position.xDelta = randomiseRange(-60, -60);
+    }
+    position.xDelta += deltaTime * position.speed;
     context.drawImage(
       images.enemy,
-      position.col * config.colWidth + position.xDelta,
-      (position.row * config.imageHeight + position.yDelta)- config.vTransp - 5,
+      position.xDelta,
+      (position.row * config.imageHeight + position.yDelta) - config.vTransp - 5,
       config.colWidth,
       config.colHeight
     );
-  })
+  });
 }
 
-function drawCharacter(context, images, config, getPlayerPosition) {
+function drawCharacter(context, images, config, playerPosition) {
   context.drawImage(
     images.character,
-    getPlayerPosition().col * config.colWidth,
-    getPlayerPosition().row * config.imageHeight - config.vTransp - 5,
+    playerPosition.col * config.colWidth,
+    playerPosition.row * config.imageHeight - config.vTransp - 5,
     config.colWidth,
     config.colHeight
   );
@@ -74,14 +79,19 @@ function createCanvas(canvasID = "frogger-canvas", config) {
   };
 }
 
+// This is a kickoff point for the game loop
 function draw(grid, player, enemies) {
-  var closure = this;
-  // 1. cache all values here to avoid re-calculating in animation frame
-  // 2. Avoid expensive calculations here
+  // Avoid computing & re-calculating in animate as much as possible to reduce frame drop rate.
+  const closure = this;
+  const images = grid.getImages();
+  const { context, canvas } = this.grid;
+  const playerPosition = player.getPosition();
+  const _enemies = enemies.getEnemies();
+  let lastTime = performance.now();
 
   function animate() {
-    const images = grid.getImages();
-    const { context, canvas } = closure.grid;
+    let nowTime = performance.now();
+    let deltaTime = (nowTime - lastTime)/1000.0;
 
     context.clearRect(0, 0, canvas.width, canvas.height);
     closure.config.gameBoard.map((row, index) => {
@@ -89,8 +99,9 @@ function draw(grid, player, enemies) {
       row === "stone" && drawStone(context, images, closure.config, index);
       row === "grass" && drawGrass(context, images, closure.config, index);
     });
-    drawCharacter(context, images, closure.config, player.getPosition);
-    drawEnemies(context, images, closure.config, enemies.getEnemies);
+    drawCharacter(context, images, closure.config, playerPosition);
+    drawEnemies(context, images, closure.config, _enemies, deltaTime);
+    lastTime = nowTime;
     requestAnimationFrame(animate);
   }
   animate();
@@ -98,7 +109,6 @@ function draw(grid, player, enemies) {
 
 // Grid class initialises the grid and makes available necessary methods and properties
 export default function Grid(id, gridModel) {
-
   let {
     rows,
     cols,
