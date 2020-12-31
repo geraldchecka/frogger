@@ -1,4 +1,3 @@
-import Resources from './resources.js';
 import { randomiseRange, detectCollisions } from "../libs/utilities.js";
 
 function drawGrass(context, images, config, row) {

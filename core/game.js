@@ -17,7 +17,6 @@ function Game(assets) {
     this.data.model.player,
   );
   this.enemies = new Enemy(
-    this.data.model.grid,
     this.data.model.enemies,
   );
   this.grid.draw(

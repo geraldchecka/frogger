@@ -2,18 +2,12 @@ import { randomiseRange } from "../libs/utilities.js";
 
 function randomiseSpeedAndDelta(enemyModel) {
   enemyModel.setEnemies((enemy) => {
-    enemy.speed = randomiseRange(50, 125);
-    enemy.xDelta = randomiseRange(-70, 60);
+    enemy.speed = randomiseRange(80, 175);
+    enemy.xDelta = randomiseRange(-150, 250);
     return enemy;
   });
 }
 
-export default function Enemy(gridModel, enemyModel) {
-  // 
+export default function Enemy(enemyModel) {
   randomiseSpeedAndDelta(enemyModel);
-  // spawn new enemies
-
-  // setInterval(() => {
-  //   randomiseEnemyDelta(enemyModel);
-  // }, 500);
 }

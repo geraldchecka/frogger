@@ -32,6 +32,48 @@ function Data(assets) {
       xDelta: -20,
       yDelta: -5,
       speed: 70,
+    },
+    {
+      row: 2,
+      col: 0,
+      xDelta: -150,
+      yDelta: -5,
+      speed: 50,
+    },
+    {
+      row: 3,
+      col: 0,
+      xDelta: 60,
+      yDelta: -5,
+      speed: 70,
+    },
+    {
+      row: 4,
+      col: 0,
+      xDelta: -50,
+      yDelta: -5,
+      speed: 35,
+    },
+    {
+      row: 5,
+      col: 0,
+      xDelta: -20,
+      yDelta: -5,
+      speed: 70,
+    },
+    {
+      row: 4,
+      col: 0,
+      xDelta: -50,
+      yDelta: -5,
+      speed: 35,
+    },
+    {
+      row: 5,
+      col: 0,
+      xDelta: -20,
+      yDelta: -5,
+      speed: 70,
     }
   ];
   const player = {
