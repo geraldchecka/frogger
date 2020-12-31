@@ -24,21 +24,6 @@ function Game(assets) {
     this.data.model.player,
     this.data.model.enemies,
   );
-
-  // DELETE:
-  // function randomiseRange(min, max) {
-  //   return Math.floor(Math.random() * (max - min + 1) + min);
-  // }
-  // setInterval(() => {
-  //   this.data.model.player.setPlayerPosition(
-  //     randomiseRange(0, 7),
-  //     randomiseRange(0, 8)
-  //   );
-  // }, 3000)
-
-  // Player, Enemy and Prize have their own drawing logic. So pass canvas 'context' around.
-    // Expose public methods accordingly
-  // 
 }
 
 Resources
