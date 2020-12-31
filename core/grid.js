@@ -92,8 +92,10 @@ function draw(grid, player, enemies) {
             || window.webkitRequestAnimationFrame
             || window.mozRequestAnimationFrame
             || window.msRequestAnimationFrame;
+  let rAFToken;
+  let cancelRAF = window.cancelAnimationFrame
+                    || window.mozCancelAnimationFrame;
 
-  // Support rAF in all browser engines (webkit, moz, ie, safari)
   function animate() {
     let nowTime = performance.now();
     let deltaTime = (nowTime - lastTime)/1000.0;
@@ -106,11 +108,13 @@ function draw(grid, player, enemies) {
     });
     drawCharacter(context, images, closure.config, playerPosition);
     drawEnemies(context, images, closure.config, _enemies, deltaTime);
-    detectCollisions(grid, player, enemies);
     lastTime = nowTime;
-    rAF(animate);
+    rAFToken = rAF(animate);
+    if (detectCollisions(grid, player, enemies) === true) {
+      cancelRAF(rAFToken);
+    }
   }
-  rAF(animate);
+  rAFToken = rAF(animate);
 }
 
 // Grid class initialises the grid and makes available necessary methods and properties
