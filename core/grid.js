@@ -1,5 +1,5 @@
 import Resources from './resources.js';
-import { randomiseRange } from "../libs/utilities.js";
+import { randomiseRange, detectCollisions } from "../libs/utilities.js";
 
 function drawGrass(context, images, config, row) {
   for (let c = 0; c < config.cols; c++) {
@@ -43,6 +43,7 @@ function drawEnemies(context, images, config, enemies, deltaTime) {
       position.xDelta = randomiseRange(-60, -60);
     }
     position.xDelta += deltaTime * position.speed;
+    // console.log(position.row, position.xDelta);
     context.drawImage(
       images.enemy,
       position.xDelta,
@@ -88,7 +89,12 @@ function draw(grid, player, enemies) {
   const playerPosition = player.getPosition();
   const _enemies = enemies.getEnemies();
   let lastTime = performance.now();
+  let rAF = window.requestAnimationFrame
+            || window.webkitRequestAnimationFrame
+            || window.mozRequestAnimationFrame
+            || window.msRequestAnimationFrame;
 
+  // Support rAF in all browser engines (webkit, moz, ie, safari)
   function animate() {
     let nowTime = performance.now();
     let deltaTime = (nowTime - lastTime)/1000.0;
@@ -101,10 +107,11 @@ function draw(grid, player, enemies) {
     });
     drawCharacter(context, images, closure.config, playerPosition);
     drawEnemies(context, images, closure.config, _enemies, deltaTime);
+    detectCollisions(grid, player, enemies);
     lastTime = nowTime;
-    requestAnimationFrame(animate);
+    rAF(animate);
   }
-  animate();
+  rAF(animate);
 }
 
 // Grid class initialises the grid and makes available necessary methods and properties
