@@ -16,6 +16,12 @@ export function detectCollisions(grid, player, enemies) {
         && (enemy.xDelta + gridColWidth - 10) <= (_player.col * gridColWidth + gridColWidth)
     ) {
       hasCollisions = true;
+      console.log("Game Over! Bugs won.");
+      break;
+    }
+    else if (_player.row === 0 || _player.row === 1) {
+      hasCollisions = true;
+      console.log("Game Over! Frogger won.");
       break;
     }
   }
