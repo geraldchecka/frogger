@@ -1,9 +1,9 @@
 export const Assets = [
-  ['stone', '../images/stone-block.png'],
-  ['water', '../images/water-block.png'],
-  ['grass', '../images/grass-block.png'],
-  ['enemy', '../images/enemy-bug.png'],
-  ['character', '../images/char-boy.png'],
+  ['stone', './images/stone-block.png'],
+  ['water', './images/water-block.png'],
+  ['grass', './images/grass-block.png'],
+  ['enemy', './images/enemy-bug.png'],
+  ['character', './images/char-boy.png'],
 ];
 
 function loadImage(url, key) {
